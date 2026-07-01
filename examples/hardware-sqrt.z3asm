@@ -1,0 +1,5 @@
+; the Z3 had a genuine hardware square root operation
+LOADI1 2
+SQRT
+PRINT
+HALT

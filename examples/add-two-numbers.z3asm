@@ -1,0 +1,6 @@
+; adds two constants and prints the result
+LOADI1 7
+LOADI2 5
+ADD
+PRINT
+HALT

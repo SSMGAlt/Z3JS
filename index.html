@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Z3JS — Zuse Z3 Emulator</title>
+  <meta name="description" content="An in-browser emulator of the Zuse Z3, the 1941 electromechanical computer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles/main.css" />
+</head>
+<body>
+  <header>
+    <h1>Z3JS</h1>
+    <p class="nameplate">22-bit semi-logarithmic arithmetic · 64-word memory · no conditional branching</p>
+  </header>
+
+  <main>
+    <section class="panel editor-panel">
+      <div class="panel-header">
+        <h2>Program</h2>
+        <select id="example-select">
+          <option value="">— load example —</option>
+        </select>
+      </div>
+      <textarea id="source" spellcheck="false" rows="12"></textarea>
+      <div class="controls">
+        <button id="assemble" type="button">assemble</button>
+        <button id="step" type="button">step</button>
+        <button id="run" type="button">run</button>
+        <button id="reset" type="button">reset</button>
+      </div>
+      <label class="input-queue" for="input-queue">
+        input queue (comma separated, for INPUT)
+        <input id="input-queue" type="text" placeholder="e.g. 7, 12, 3" />
+      </label>
+      <pre id="log" class="log" aria-live="polite"></pre>
+    </section>
+
+    <section class="panel machine-panel">
+      <h2>Machine state</h2>
+
+      <div class="register">
+        <span class="label">r1</span>
+        <div class="lamps" id="r1-lamps"></div>
+        <span class="decimal" id="r1-decimal">0.0000</span>
+      </div>
+      <div class="register">
+        <span class="label">r2</span>
+        <div class="lamps" id="r2-lamps"></div>
+        <span class="decimal" id="r2-decimal">0.0000</span>
+      </div>
+
+      <h3>Memory — 64 × 22-bit words</h3>
+      <div class="memory-grid" id="memory-grid"></div>
+
+      <div class="status-bar">
+        <span id="status">idle</span>
+        <span id="pc">pc 0</span>
+        <span id="exception" class="flag">exception</span>
+      </div>
+
+      <h3>Output</h3>
+      <pre id="output" class="log"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p>MIT licensed · <a href="https://github.com/SSMGAlt/Z3JS">source on GitHub</a></p>
+  </footer>
+
+  <script type="module" src="./src/ui/app.js"></script>
+</body>
+</html>

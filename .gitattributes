@@ -1,0 +1,6 @@
+* text=auto eol=lf
+
+*.z3asm text
+*.z3bin binary
+*.png binary
+*.jpg binary

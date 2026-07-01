@@ -1,0 +1,10 @@
+; reads two values from the input queue and prints their average
+INPUT
+STORE 0
+INPUT
+LOAD2 0
+ADD
+LOADI2 2
+DIV
+PRINT
+HALT

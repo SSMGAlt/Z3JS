@@ -1,0 +1,15 @@
+{
+  "name": "z3js",
+  "version": "0.1.0",
+  "description": "An in-browser emulator of the Zuse Z3 (1941).",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "eslint": "^10.0.0",
+    "@eslint/js": "^10.0.0"
+  }
+}
