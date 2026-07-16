@@ -51,6 +51,7 @@ Two working registers, `R1` and `R2`, feed the arithmetic unit — a simplified 
 | `NEG` | `0x0B` | — | `R1 = −R1` |
 | `INPUT` | `0x0C` | — | `R1 = next value from the input queue` (models the decimal keyboard) |
 | `PRINT` | `0x0D` | — | append `R1` to output (models the lamp field) |
+| `INPUT2` | `0x0E` | — | `R2 = next value from the input queue` |
 | `HALT` | `0xFF` | — | stop execution |
 
 `LOADI1`/`LOADI2` are a modern convenience — the original relied on the keyboard for constants — included so small programs don't need to pre-populate memory by hand.
@@ -58,14 +59,6 @@ Two working registers, `R1` and `R2`, feed the arithmetic unit — a simplified 
 ## Binary tape format
 
 A program is a flat sequence of 2-byte instructions: `[opcode][operand]`. `operand` is an unsigned 0–63 address for `LOAD1`/`LOAD2`/`STORE`, a signed 8-bit immediate (−128 to 127) for `LOADI1`/`LOADI2`, and is ignored otherwise. `src/core/assembler.js` turns mnemonics into this binary form and back.
-
-## No conditional branching — on purpose
-
-This is the real machine's defining limitation, not a gap in this emulator. The Z3 read instructions straight off a punched tape with no mechanism to branch on a computed condition — a program ran start to finish, once, in order. It *could* loop, but only unconditionally: since the tape was a physical loop of film, its two ends could literally be spliced together so a calculation repeated indefinitely. There was no way to make that repetition depend on a result.
-
-For decades this was treated as disqualifying the Z3 from Turing-completeness. In 1998, Raúl Rojas showed otherwise: a conditional "if flag then A else B" can be built from pure arithmetic as `flag × A + (1 − flag) × B`, where `flag` is 0 or 1 — no branch instruction required. Extended far enough, this can simulate an arbitrary Turing machine, at the cost of a program that computes every possible path through every branch and arithmetically cancels out the ones it doesn't need — a kind of brute-force speculative execution. Turing-complete in principle, wildly impractical in practice — exactly the spirit Z3JS tries to preserve. The flag trick works here too, given enough of the 64 words to store branch results in.
-
-One pleasant consequence of having no branch instruction: every Z3JS program is guaranteed to halt (or hit an explicit `HALT`). Infinite loops are structurally impossible — there's nowhere for the program counter to jump back to.
 
 ## Original 1941 syntax
 
@@ -90,6 +83,14 @@ Nine instructions, no control flow — the complete original language.
 ## Custom examples
 
 The `save`/`load`/`delete` controls in the UI let you name and keep programs beyond the three built-in examples: **save** stores the current editor contents under a name (both in the browser via `localStorage` and as a downloaded `.z3asm` file), **load** reads a `.z3asm` file back in, and **delete** removes a saved entry. See `src/ui/library.js`.
+
+## No conditional branching — on purpose
+
+This is the real machine's defining limitation, not a gap in this emulator. The Z3 read instructions straight off a punched tape with no mechanism to branch on a computed condition — a program ran start to finish, once, in order. It *could* loop, but only unconditionally: since the tape was a physical loop of film, its two ends could literally be spliced together so a calculation repeated indefinitely. There was no way to make that repetition depend on a result.
+
+For decades this was treated as disqualifying the Z3 from Turing-completeness. In 1998, Raúl Rojas showed otherwise: a conditional "if flag then A else B" can be built from pure arithmetic as `flag × A + (1 − flag) × B`, where `flag` is 0 or 1 — no branch instruction required. Extended far enough, this can simulate an arbitrary Turing machine, at the cost of a program that computes every possible path through every branch and arithmetically cancels out the ones it doesn't need — a kind of brute-force speculative execution. Turing-complete in principle, wildly impractical in practice — exactly the spirit Z3JS tries to preserve. The flag trick works here too, given enough of the 64 words to store branch results in.
+
+One pleasant consequence of having no branch instruction: every Z3JS program is guaranteed to halt (or hit an explicit `HALT`). Infinite loops are structurally impossible — there's nowhere for the program counter to jump back to.
 
 ## Scope note
 

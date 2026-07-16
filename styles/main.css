@@ -78,17 +78,6 @@ header h1 {
 
 .cursor {
   display: inline-block;
-  animation: blink 1.1s step-end infinite;
-}
-
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
 }
 
 .nameplate {

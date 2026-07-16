@@ -15,6 +15,7 @@ export default [
         Blob: 'readonly',
         URL: 'readonly',
         FileReader: 'readonly',
+        setInterval: 'readonly',
       },
     },
   },

@@ -31,3 +31,19 @@ export function initPanelTabs() {
     });
   });
 }
+
+// Driven from JS rather than a CSS animation: some browsers render a
+// steps()-timed opacity keyframe inconsistently (fine on one device,
+// visibly erratic on another for the same rule), so a plain interval
+// sidesteps that entirely — there's no timing-function to misinterpret.
+export function initCursorBlink() {
+  const cursor = document.querySelector('.cursor');
+  if (!cursor) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let visible = true;
+  setInterval(() => {
+    visible = !visible;
+    cursor.style.opacity = visible ? '1' : '0';
+  }, 550);
+}

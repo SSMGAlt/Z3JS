@@ -2,11 +2,12 @@ import { Z3Machine } from '../core/cpu.js';
 import { assemble } from '../core/assembler.js';
 import { EXAMPLES } from './examples.js';
 import { renderRegister, renderMemory, renderOutput, renderStatus } from './render.js';
-import { initDevice, initPanelTabs } from './device.js';
+import { initDevice, initPanelTabs, initCursorBlink } from './device.js';
 import { listCustom, saveCustom, deleteCustom, downloadZ3Asm, readZ3AsmFile } from './library.js';
 
 initDevice();
 initPanelTabs();
+initCursorBlink();
 
 const machine = new Z3Machine();
 
