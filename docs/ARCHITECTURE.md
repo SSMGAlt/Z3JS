@@ -67,9 +67,33 @@ For decades this was treated as disqualifying the Z3 from Turing-completeness. I
 
 One pleasant consequence of having no branch instruction: every Z3JS program is guaranteed to halt (or hit an explicit `HALT`). Infinite loops are structurally impossible — there's nowhere for the program counter to jump back to.
 
+## Original 1941 syntax
+
+Z3JS also accepts the Z3's own instruction mnemonics directly, so archived programs can run unmodified alongside ones written in the modern syntax above — the two can even be mixed in the same file.
+
+| Original | Modern equivalent | Effect |
+|---|---|---|
+| `Pr z` | `LOAD1`/`LOAD2` | load `memory[z]` into R1 or R2 |
+| `Ps z` | `STORE` | store R1 into `memory[z]` |
+| `Ls1` / `La` | `ADD` | add |
+| `Ls2` / `Ls` | `SUB` | subtract |
+| `Lm` | `MUL` | multiply |
+| `Li` | `DIV` | divide |
+| `Lw` | `SQRT` | square root |
+| `Lu` | `INPUT`/`INPUT2` | keyboard input into R1 or R2 |
+| `Ld` | `PRINT` | display R1 |
+
+Nine instructions, no control flow — the complete original language.
+
+`Pr` and `Lu` don't name a register because the real machine didn't need them to: it tracked whether R1 already held a value and filled R1 if it was free, R2 otherwise. Arithmetic clears R2 once it's consumed (R1 keeps the result); storing or printing R1 frees it again. Z3JS resolves this the same way, at assemble time, by tracking register occupancy through the instruction sequence — which works cleanly precisely because there's no branching, so that sequence is always fully known in advance. A period assembly listing for evaluating a cubic polynomial by Horner's method (`Pr`/`Lu` alternating cleanly between R1 and R2 across ten-plus lines with no explicit register names anywhere) is what confirmed this model — see `src/core/assembler.js`.
+
+## Custom examples
+
+The `save`/`load`/`delete` controls in the UI let you name and keep programs beyond the three built-in examples: **save** stores the current editor contents under a name (both in the browser via `localStorage` and as a downloaded `.z3asm` file), **load** reads a `.z3asm` file back in, and **delete** removes a saved entry. See `src/ui/library.js`.
+
 ## Scope note
 
-The numeric engine and hardware constraints above — the 22-bit format (including real exception values), 64-word memory, and the absence of branching — are historically accurate and are the heart of what makes this a Z3 emulator rather than a generic calculator. The exact instruction encoding is this project's own design: the original 1941 punch-tape bit-level opcode format isn't preserved in accessible public archives (the machine and most of Zuse's early records were destroyed in the 1943 bombing), so Z3JS builds a working instruction set around the machine's real, documented capabilities rather than claiming a byte-exact reconstruction of lost tape data.
+The numeric engine and hardware constraints above — the 22-bit format (including real exception values), 64-word memory, and the absence of branching — are historically accurate and are the heart of what makes this a Z3 emulator rather than a generic calculator. The original-syntax mnemonics and the register-occupancy model they rely on are also grounded in documented sources (see above). What's this project's own design is the *modern* instruction set's binary tape encoding — the exact 1941 punch-tape bit-level format isn't preserved in accessible public archives (the machine and most of Zuse's early records were destroyed in the 1943 bombing), so the modern opcodes are a working encoding built around the machine's real, documented capabilities rather than a byte-exact reconstruction of lost tape data.
 
 ## References
 
@@ -77,4 +101,5 @@ The numeric engine and hardware constraints above — the 22-bit format (includi
 - [Konrad Zuse — Wikipedia](https://en.wikipedia.org/wiki/Konrad_Zuse)
 - Raúl Rojas, "How to Make Zuse's Z3 a Universal Computer" (1998)
 - [Turing-Completeness of the Zuse Z3 — mrob.com](https://mrob.com/pub/comp/zuse-z3.html)
+- Documentation and source of the open-source `pipZuseZ3` Z3 simulator, and a university course document showing a worked Horner's-method program — both independently describe the same Pr/Lu register-occupancy behavior, which is what this project's implementation follows
 - Deutsches Museum, Munich — working Z3 replica

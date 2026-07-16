@@ -15,7 +15,7 @@ export function renderRegister(name, word) {
   let bitIndex = WORD_BITS - 1;
 
   for (const size of FIELD_SIZES) {
-    const group = document.createElement('div');
+    const group = document.createElement('span');
     group.className = 'lamp-group';
     for (let i = 0; i < size; i++) {
       const bit = (word >>> bitIndex) & 1;

@@ -87,6 +87,9 @@ export class Z3Machine {
       case OPS.INPUT:
         this.r1 = f22.encode(this.#inputQueue.shift() ?? 0);
         break;
+      case OPS.INPUT2:
+        this.r2 = f22.encode(this.#inputQueue.shift() ?? 0);
+        break;
       case OPS.PRINT:
         this.output.push(f22.decode(this.r1));
         break;

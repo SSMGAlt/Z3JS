@@ -3,9 +3,9 @@
 An in-browser emulator of the [Zuse Z3](https://en.wikipedia.org/wiki/Z3_(computer)) — the electromechanical computer Konrad Zuse completed in Berlin in May 1941, generally credited as the first working, programmable, fully automatic digital computer.
 
 ![CI](https://github.com/SSMGAlt/Z3JS/actions/workflows/ci.yml/badge.svg)
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-**[Live demo →](https://z3js.ssmg4.dpdns.org)**
+**[Live demo →](https://z3js.ssmg4.dpdns.org/)**
 
 ## What's actually emulated
 
@@ -13,8 +13,10 @@ An in-browser emulator of the [Zuse Z3](https://en.wikipedia.org/wiki/Z3_(comput
 - The real **64-word memory**.
 - The real **arithmetic unit**: add, subtract, multiply, divide, and hardware square root — including genuine ±infinity / "undefined" exception values on divide-by-zero or √(negative), instead of just crashing.
 - The real **absence of conditional branching**. Programs run straight through, top to bottom, exactly like a punch tape from 1941 — see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for why that's more interesting than it sounds.
+- **Both instruction sets**: write in the modern mnemonics below, or the Z3's original nine — `Pr`, `Ps`, `Ls1`/`La`, `Ls2`/`Ls`, `Lm`, `Li`, `Lw`, `Lu`, `Ld` — including the real register-occupancy behavior that let the original machine skip naming which register an instruction targets. The two can be freely mixed.
 - A small **assembler** turning readable mnemonics into the binary tape format the machine actually reads.
 - A lamp-panel UI so you can watch registers and memory flip bits live.
+- **Save, load, and delete** your own programs as `.z3asm` files, on top of the three built-in examples.
 
 ## Getting started
 

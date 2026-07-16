@@ -8,16 +8,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="./styles/main.css" />
 </head>
 <body>
   <header>
-    <h1>Z3JS</h1>
-    <p class="nameplate">22-bit semi-logarithmic arithmetic · 64-word memory · no conditional branching</p>
+    <p class="prompt">guest@z3js:~$ <span class="cmd">run z3.tape</span></p>
+    <h1>Z3JS<span class="cursor" aria-hidden="true">_</span></h1>
+    <p class="nameplate"># 22-bit semi-logarithmic arithmetic · 64-word memory · no conditional branching</p>
   </header>
+
+  <div class="tabs" id="panel-tabs" role="tablist">
+    <button type="button" data-panel="program" class="active" role="tab" aria-selected="true">program</button>
+    <button type="button" data-panel="machine" role="tab" aria-selected="false">machine</button>
+  </div>
 
   <main>
     <section class="panel editor-panel">
@@ -34,6 +40,13 @@
         <button id="run" type="button">run</button>
         <button id="reset" type="button">reset</button>
       </div>
+      <div class="controls file-controls">
+        <input id="example-name" type="text" placeholder="name this program" aria-label="program name" />
+        <button id="save-example" type="button">save</button>
+        <button id="load-file" type="button">load</button>
+        <button id="delete-example" type="button">delete</button>
+      </div>
+      <input id="file-input" type="file" accept=".z3asm" hidden />
       <label class="input-queue" for="input-queue">
         input queue (comma separated, for INPUT)
         <input id="input-queue" type="text" placeholder="e.g. 7, 12, 3" />
